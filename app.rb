@@ -12,5 +12,7 @@ end
 # root page
 
 get '/' do
-  erb :index
+  @title = "Rayo Messaging Protocol"
+  @page = "about"
+  erb :about
 end
