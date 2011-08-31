@@ -4,10 +4,13 @@
 
 /* trigger when page is ready */
 $(document).ready(function (){
-
-	$(window).bind("resize,scroll",function(){
-		$("#left").css("top","0");
-	})
+	/*
+	$(window).bind("resize scroll",function(){
+		$("#left").css({
+			"top":$(this).scrollTop()
+		});
+	});
+	*/
 
 });
 

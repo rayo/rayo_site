@@ -147,7 +147,7 @@ mark {background-color: #fcd700; color: #000; font-style: italic; font-weight: b
 
 
 body{
-	background:#F4F4F4 url("../images/page-bg.png") repeat-y 50% 0;
+	background:#F4F4F4 url("../images/page-bg.png") repeat-y 45px 0;
 	font-family: sans-serif;
 	font-size: .95em;
 	line-height:1.7em;
@@ -159,7 +159,7 @@ p{
 }
 #page{
 	width:950px;
-	margin:0 auto;
+	margin-left:45px;
 	position:relative;
 }
 #bolt{
@@ -175,10 +175,10 @@ p{
 
 /* Left Column */
 #page #left{
-	position:absolute;
+	position:fixed;
 	width:242px;
 	top:0;
-	left:1px;
+	left:46px;
 	/*margin-left:2px;*/
 }
 	#logo{
@@ -232,7 +232,7 @@ ul#nav li a{
 		color:#004180;
 		font-weight:bold;
 		text-shadow:0 1px 1px #fff;
-		background: #efefef;
+		background: #efefef url("../images/logo-bg.png") no-repeat 0 60%;
 	}
 
 
