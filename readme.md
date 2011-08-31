@@ -1,3 +1,4 @@
-===
 rayo.org site
-RACK
+===
+Sinatra for deployment w/ Rack
+-----
