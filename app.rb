@@ -15,3 +15,17 @@ get '/' do
 	@page = "about"
 	erb :about
 end
+
+# spec page
+get '/spec' do
+	@title = "Rayo Messaging Protocol Specification"
+	@page = "spec"
+	erb :spec
+end
+
+# who's using it page
+get '/who' do
+	@title = "Rayo Messaging Protocol - Who's using it"
+	@page = "who"
+	erb :who
+end

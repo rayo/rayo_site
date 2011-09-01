@@ -4,13 +4,23 @@
 
 /* trigger when page is ready */
 $(document).ready(function (){
-	/*
-	$(window).bind("resize scroll",function(){
-		$("#left").css({
-			"top":$(this).scrollTop()
-		});
-	});
-	*/
+	
+	$("#bolt").addClass("yellow");
+	
+	setTimeout(function(){
+	    $("#bolt").removeClass("yellow");
+	    
+	    setTimeout(function(){
+		    $("#bolt").addClass("yellow");
+		    
+		    setTimeout(function(){
+			    $("#bolt").removeClass("yellow");
+			    
+			},100);
+		    
+		},100);
+	    
+	},100);
 
 });
 

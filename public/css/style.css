@@ -168,9 +168,10 @@ p{
 	right:0;
 	width:153px;
 	height:151px;
-}
-#bolt.white{
 	background:url("../images/bolt.png") no-repeat 0 0;
+}
+#bolt.yellow{
+	background:url("../images/bolt-yellow.png") no-repeat 0 0;
 }
 
 /* Left Column */
@@ -198,6 +199,16 @@ p{
 		font-weight: 300;
 		line-height:1.5em;
 		padding-top:67px;
+		color:#555;
+		text-shadow:1px 1px 1px #fff;
+		margin-bottom:30px;
+	}
+	#title{
+		font-family: 'Lato', sans-serif;
+		font-size:50px;
+		font-weight: 300;
+		line-height:1.5em;
+		padding-top:30px;
 		color:#555;
 		text-shadow:1px 1px 1px #fff;
 		margin-bottom:30px;

@@ -63,28 +63,28 @@
 	
 	<div id="left">
 		<div id="logo">
-			<img src="/images/logo.png" width="242" height="223"/>
+			<a href="/" title="About Rayo"><img src="/images/logo.png" width="242" height="223"/></a>
 		</div>
 		
 		<ul id="nav">
 			<li>
-				<a href="#about" <% if @page == "about" %>class="selected"<% end %>>About</a>
+				<a title="About Rayo" href="/" <% if @page == "about" %>class="selected"<% end %>>About</a>
 			</li>
 			
 			<li>
-				<a href="#spec">The Spec</a>
+				<a title="Specification" href="/spec" <% if @page == "spec" %>class="selected"<% end %>>The Spec</a>
 			</li>
 			
 			<li>
-				<a href="#who">Who's Using It?</a>
+				<a title="Who Uses Rayo?" href="/who" <% if @page == "who" %>class="selected"<% end %>>Who Uses Rayo?</a>
 			</li>
 			
 			<li>
-				<a href="#discuss">Discuss</a>
+				<a title="Participate" href="/participate" <% if @page == "participate" %>class="selected"<% end %>>Participate</a>
 			</li>
 			
 			<li>
-				<a href="#sponsors">Sponsors</a>
+				<a title="Sponsors" href="/sponsors" <% if @page == "sponsors" %>class="selected"<% end %>>Sponsors</a>
 			</li>
 		</ul>
 	</div>
