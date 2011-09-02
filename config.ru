@@ -6,7 +6,7 @@ set :run, true
 set :environment, :production
 
 FileUtils.mkdir_p 'logs' unless File.exists?('logs')
-log = File.new("logs/sinatra.log", "a+")
+logs = File.new("logs/sinatra.log", "a+")
 $stdout.reopen(logs)
 $stderr.reopen(logs)
 
