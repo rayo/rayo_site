@@ -7,6 +7,12 @@
 <!--[if gt IE 9]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <!-- the "no-js" class is for Modernizr. -->
 
+
+<!-- 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+DO NOT CHANGE HEAD ID, LOAD BALANCER LOOKS FOR THIS
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ -->
 <head id="rayo.org" data-template-set="html5-reset">
 
 	<meta charset="utf-8">
@@ -52,43 +58,42 @@
 	
 	<!-- all our JS is at the bottom of the page, except for Modernizr. -->
 	<script src="/js/modernizr-1.7.min.js"></script>
-
 </head>
 
 <body>
 <div id="bolt" class="white"></div>
 <div id="page">
-	<div id="right">
-		<%= yield %>
-	</div>
-	
-	<div id="left">
-		<div id="logo">
-			<a href="/" title="About Rayo"><img src="/images/logo.png" width="242" height="223"/></a>
-		</div>
-		
-		<ul id="nav">
-			<li>
-				<a title="About Rayo" href="/" <% if @page == "about" %>class="selected"<% end %>>About</a>
-			</li>
-			
-			<li>
-				<a title="Specification" href="/spec" <% if @page == "spec" %>class="selected"<% end %>>The Spec</a>
-			</li>
-			
-			<li>
-				<a title="Who Uses Rayo?" href="/who" <% if @page == "who" %>class="selected"<% end %>>Who Uses Rayo?</a>
-			</li>
-			
-			<li>
-				<a title="Participate" href="/participate" <% if @page == "participate" %>class="selected"<% end %>>Participate</a>
-			</li>
-			
-			<li>
-				<a title="Sponsors" href="/sponsors" <% if @page == "sponsors" %>class="selected"<% end %>>Sponsors</a>
-			</li>
-		</ul>
-	</div>
+  <div id="right">
+    <%= yield %>
+  </div>
+  
+  <div id="left">
+    <div id="logo">
+      <a href="/" title="About Rayo"><img src="/images/logo.png" width="242" height="223"/></a>
+    </div>
+    
+    <ul id="nav">
+      <li>
+        <a title="About Rayo" href="/" <% if @page == "about" %>class="selected"<% end %>>About</a>
+      </li>
+      
+      <li>
+        <a title="Specification" href="/spec" <% if @page == "spec" %>class="selected"<% end %>>The Spec</a>
+      </li>
+      
+      <li>
+        <a title="Who Uses Rayo?" href="/who" <% if @page == "who" %>class="selected"<% end %>>Who Uses Rayo?</a>
+      </li>
+      
+      <li>
+        <a title="Participate" href="/participate" <% if @page == "participate" %>class="selected"<% end %>>Participate</a>
+      </li>
+      
+      <li>
+        <a title="Sponsors" href="/sponsors" <% if @page == "sponsors" %>class="selected"<% end %>>Sponsors</a>
+      </li>
+    </ul>
+  </div>
 </div>
 
 
@@ -102,20 +107,27 @@
 <!-- this is where we put our custom functions -->
 <script src="/js/functions.js"></script>
 
-<!-- Asynchronous google analytics; this is the official snippet.
-	 Replace UA-XXXXXX-XX with your site's ID and uncomment to enable.
-	 
+
+<!-- https://evolution.voxeo.com/ticket/1529144 -->
+<!-- 
+
+Asynchronous google analytics; this is the official snippet.
+   Replace UA-119008-23 with your site's ID and uncomment to enable.
+   
 <script>
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-XXXXXX-XX']);
-  _gaq.push(['_trackPageview']);
+    var _gaq = _gaq || []; 
+    _gaq.push(['_setAccount', 'UA-119008-23']); 
+    _gaq.push(['_setDomainName', '.rayo.org']) 
+    _gaq.push(['_setAllowHash', false]); 
+    _gaq.push(['_trackPageLoadTime']); 
+    _gaq.push(['_trackPageview']); 
 
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
+    (function() { 
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; 
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'; 
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s); 
+    })(); 
 
 </script>
 -->
