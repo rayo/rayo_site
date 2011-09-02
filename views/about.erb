@@ -11,90 +11,40 @@
     use yet flexible enough to adapt to a wide array of network scenarios.
 </p>
 
-<p>
-    So why another protocol? While call and media control protocols are nothing new, 
-    existing system are either way too low level and difficult to use (e.g. SIP, MRCP, MGCP, etc.) 
-    or far too restrictive for highly interactive applications (e.g. VoiceXML, TwiML). 
-    Rayo bridges the gap by providing a unified call+media control protocol that’s both simple to 
-    use yet flexible enough to adapt to a wide array of network scenarios.
-</p>
+<h1>
+	Key Features
+</h1>
 
 <p>
-    So why another protocol? While call and media control protocols are nothing new, 
-    existing system are either way too low level and difficult to use (e.g. SIP, MRCP, MGCP, etc.) 
-    or far too restrictive for highly interactive applications (e.g. VoiceXML, TwiML). 
-    Rayo bridges the gap by providing a unified call+media control protocol that’s both simple to 
-    use yet flexible enough to adapt to a wide array of network scenarios.
+	<ul>
+		<li>
+			<strong>Call Control</strong>: Incoming calls are "offered" to <a href="#">clients</a> at which point they can be answered, rejected, redirected to another destination, etc. Evey attempt is made to be shield the Rayo client from the low level telephony protocol (e.g. SIP, Jingle, PSTN, etc.)
+		</li>
+		<li>
+			<strong>Audio File Playback</strong>: A compatible Rayo server will fetch a file from a a specified URL and play the containing audio to the caller.
+		</li>
+		<li>
+			<strong>Speech Synthesis / TTS</strong>: In cases where dynamic data must be spoken, a Speech Synthesis engine many be used to play computer generated speech to the caller.
+		</li>
+		<li>
+			<strong>DTMF / Touch-tone Events</strong>: Rayo surfaces real-time event when the caller presses keys on their touch-tone keypad.
+		</li>
+		<li>
+			<strong>Speech Recognition</strong>: Enables the phone application to take spoken queues allowing for sophisticated voice-driven menus and directory services.
+		</li>
+		<li>
+			<strong>Call Recording</strong>: Can be used to capture the caller’s voice (e.g. Voicemail) or both sides of the call for auditing and compliance purposes.
+		</li>
+		<li>
+			<strong>Mixing</strong>: Typically referred to as an audio “conference”; calls can be joined together so that the participants can hear each other in real-time.
+		</li>
+	</ul>
 </p>
 
-<p>
-    So why another protocol? While call and media control protocols are nothing new, 
-    existing system are either way too low level and difficult to use (e.g. SIP, MRCP, MGCP, etc.) 
-    or far too restrictive for highly interactive applications (e.g. VoiceXML, TwiML). 
-    Rayo bridges the gap by providing a unified call+media control protocol that’s both simple to 
-    use yet flexible enough to adapt to a wide array of network scenarios.
-</p>
+<h1>
+	Clients and Servers
+</h1>
 
 <p>
-    So why another protocol? While call and media control protocols are nothing new, 
-    existing system are either way too low level and difficult to use (e.g. SIP, MRCP, MGCP, etc.) 
-    or far too restrictive for highly interactive applications (e.g. VoiceXML, TwiML). 
-    Rayo bridges the gap by providing a unified call+media control protocol that’s both simple to 
-    use yet flexible enough to adapt to a wide array of network scenarios.
-</p>
-
-<p>
-    So why another protocol? While call and media control protocols are nothing new, 
-    existing system are either way too low level and difficult to use (e.g. SIP, MRCP, MGCP, etc.) 
-    or far too restrictive for highly interactive applications (e.g. VoiceXML, TwiML). 
-    Rayo bridges the gap by providing a unified call+media control protocol that’s both simple to 
-    use yet flexible enough to adapt to a wide array of network scenarios.
-</p>
-
-<p>
-    So why another protocol? While call and media control protocols are nothing new, 
-    existing system are either way too low level and difficult to use (e.g. SIP, MRCP, MGCP, etc.) 
-    or far too restrictive for highly interactive applications (e.g. VoiceXML, TwiML). 
-    Rayo bridges the gap by providing a unified call+media control protocol that’s both simple to 
-    use yet flexible enough to adapt to a wide array of network scenarios.
-</p>
-
-<p>
-    So why another protocol? While call and media control protocols are nothing new, 
-    existing system are either way too low level and difficult to use (e.g. SIP, MRCP, MGCP, etc.) 
-    or far too restrictive for highly interactive applications (e.g. VoiceXML, TwiML). 
-    Rayo bridges the gap by providing a unified call+media control protocol that’s both simple to 
-    use yet flexible enough to adapt to a wide array of network scenarios.
-</p>
-
-<p>
-    So why another protocol? While call and media control protocols are nothing new, 
-    existing system are either way too low level and difficult to use (e.g. SIP, MRCP, MGCP, etc.) 
-    or far too restrictive for highly interactive applications (e.g. VoiceXML, TwiML). 
-    Rayo bridges the gap by providing a unified call+media control protocol that’s both simple to 
-    use yet flexible enough to adapt to a wide array of network scenarios.
-</p>
-
-<p>
-    So why another protocol? While call and media control protocols are nothing new, 
-    existing system are either way too low level and difficult to use (e.g. SIP, MRCP, MGCP, etc.) 
-    or far too restrictive for highly interactive applications (e.g. VoiceXML, TwiML). 
-    Rayo bridges the gap by providing a unified call+media control protocol that’s both simple to 
-    use yet flexible enough to adapt to a wide array of network scenarios.
-</p>
-
-<p>
-    So why another protocol? While call and media control protocols are nothing new, 
-    existing system are either way too low level and difficult to use (e.g. SIP, MRCP, MGCP, etc.) 
-    or far too restrictive for highly interactive applications (e.g. VoiceXML, TwiML). 
-    Rayo bridges the gap by providing a unified call+media control protocol that’s both simple to 
-    use yet flexible enough to adapt to a wide array of network scenarios.
-</p>
-
-<p>
-    So why another protocol? While call and media control protocols are nothing new, 
-    existing system are either way too low level and difficult to use (e.g. SIP, MRCP, MGCP, etc.) 
-    or far too restrictive for highly interactive applications (e.g. VoiceXML, TwiML). 
-    Rayo bridges the gap by providing a unified call+media control protocol that’s both simple to 
-    use yet flexible enough to adapt to a wide array of network scenarios.
+	Rayo is a client/server protocol. The server interfaces with low level telephony components while the client controls calls by sending XML messages to the server. The communication between client and server is bidirectional with the client sending commands to the server and the server sending events to the client.
 </p>

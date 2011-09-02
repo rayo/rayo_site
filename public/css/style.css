@@ -59,13 +59,14 @@ td {font-weight: normal; vertical-align: top;}
 hr {display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 1em 0; padding: 0;}
 
 input, select {vertical-align: middle;}
-
+/*
 pre {
 	white-space: pre; /* CSS2 */
 	white-space: pre-wrap; /* CSS 2.1 */
 	white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */
 	word-wrap: break-word; /* IE */
 }
+*/
 
 input[type="radio"] {vertical-align: text-bottom;}
 input[type="checkbox"] {vertical-align: bottom; *vertical-align: baseline;}
@@ -92,7 +93,16 @@ sup {top: -0.5em;}
 sub {bottom: -0.25em;}
 
 /* standardize any monospaced elements */
-pre, code, kbd, samp {font-family: monospace, sans-serif;}
+pre, code, kbd, samp {font-family: 'Bitstream Vera Sans Mono','Courier',monospace}
+code{
+    background-color: #F8F8F8;
+    border: 1px solid #DEDEDE;
+    font-size: 13px;
+    padding: 0;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
 
 /* hand cursor on clickable elements */
 .clickable,
@@ -132,7 +142,7 @@ body {font: 13px Helmet, Freesans, sans-serif;}
 /* we like off-black for text */
 body, select, input, textarea {color: #333;}
 
-a {color: #03f;}
+a {color: #004180;}
 a:hover {color: #69f;}
 
 /* Custom text-selection colors (remove any text shadows: twitter.com/miketaylr/status/12228805301) */
@@ -149,10 +159,10 @@ mark {background-color: #fcd700; color: #000; font-style: italic; font-weight: b
 body{
 	background:#F4F4F4 url("../images/page-bg.png") repeat-y 45px 0;
 	font-family: sans-serif;
-	font-size: .95em;
+	font-size: .85em;
 	line-height:1.7em;
 	font-weight:100;
-	color:#555;
+	color:#444;
 }
 p{
 	margin:15px 0;
@@ -173,6 +183,28 @@ p{
 #bolt.yellow{
 	background:url("../images/bolt-yellow.png") no-repeat 0 0;
 }
+h1{
+	font-size:135%;
+	color:#242424;
+	margin-top:10px;
+	padding:7px 10px;
+	display:inline-block;
+	-webkit-border-radius:3px;
+	text-shadow:1px 1px 1px #FFFF33;
+	background: #FFFF33;
+	background: -webkit-gradient(linear, left top, left bottom, from(#FFFF33), to(#FF9900));
+	background: -moz-linear-gradient(top, #999, #555);
+	background: -ms-linear-gradient(top, #999, #555);
+	background: -o-linear-gradient(top, #999, #555);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorStr='#999', EndColorStr='#555');
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#999', EndColorStr='#555')";
+}
+h2{
+	font-size:120%;
+}
+h3{
+	font-size:110%;
+}
 
 /* Left Column */
 #page #left{
@@ -192,6 +224,7 @@ p{
 #page #right{
 	float:right;
 	width:670px;
+	padding-bottom:40px;
 }
 	#intro{
 		font-family: 'Lato', sans-serif;
@@ -199,7 +232,7 @@ p{
 		font-weight: 300;
 		line-height:1.5em;
 		padding-top:67px;
-		color:#555;
+		color:#444;
 		text-shadow:1px 1px 1px #fff;
 		margin-bottom:30px;
 	}
@@ -217,6 +250,13 @@ p{
 		font-weight:400;
 		color:#004786;
 	}
+#page #right ul{
+	list-style-type: disc;
+	margin-left:20px;
+}
+#page #right ul li{
+	margin-bottom:10px;
+}
 	
 /* Navigation */
 ul#nav{

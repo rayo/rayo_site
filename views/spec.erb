@@ -3,97 +3,76 @@
 </div>
 
 <p>
-    So why another protocol? While call and media control protocols are nothing new, 
-    existing system are either way too low level and difficult to use (e.g. SIP, MRCP, MGCP, etc.) 
-    or far too restrictive for highly interactive applications (e.g. VoiceXML, TwiML). 
-    Rayo bridges the gap by providing a unified call+media control protocol that’s both simple to 
-    use yet flexible enough to adapt to a wide array of network scenarios.
+    The Rayo protocol primarily deals with calls. Inbound calls originate from the PSTN or via SIP and are offered to 
+    Rayo clients via XMPP using a Jabber Identifier (JID). Each call is in turn represented by it's own unique JID allowing 
+    a two way conversation between the Rayo client and the server that's handling the call signaling and media.
+</p>
+
+<h1>
+    JID Format
+</h1>
+
+<p>
+    The JID follows a specific format. In XMPP the JID is constructed as <code>&lt;node&gt;@&lt;domain&gt;/&lt;resource&gt;</code>.
 </p>
 
 <p>
-    So why another protocol? While call and media control protocols are nothing new, 
-    existing system are either way too low level and difficult to use (e.g. SIP, MRCP, MGCP, etc.) 
-    or far too restrictive for highly interactive applications (e.g. VoiceXML, TwiML). 
-    Rayo bridges the gap by providing a unified call+media control protocol that’s both simple to 
-    use yet flexible enough to adapt to a wide array of network scenarios.
+    For Rayo, the <code>&lt;node&gt;</code> portion of the JID always represents the call ID. The <code>&lt;resource&gt;</code>, when present, represents the affected command ID.
+</p>
+
+<h1>
+	Incoming Calls
+</h1>
+
+<p>
+<pre>
+<code>&lt;!-- Message comes from the Call's JID --&gt;
+&lt;presence to='16577@app.rayo.net/1' from='9f00061@call.rayo.net/1'&gt;
+  &lt;offer xmlns='urn:xmpp:rayo:1'
+    to='tel:+18003211212'
+    from='tel:+13058881212'&gt;
+    &lt;!-- Signaling (e.g. SIP) Headers --&gt;
+    &lt;header name='Via' value='192.168.0.1' /&gt;
+    &lt;header name='Contact' value='192.168.0.1' /&gt;
+  &lt;/offer&gt;
+&lt;/presence&gt;</code>
+</pre>
 </p>
 
 <p>
-    So why another protocol? While call and media control protocols are nothing new, 
-    existing system are either way too low level and difficult to use (e.g. SIP, MRCP, MGCP, etc.) 
-    or far too restrictive for highly interactive applications (e.g. VoiceXML, TwiML). 
-    Rayo bridges the gap by providing a unified call+media control protocol that’s both simple to 
-    use yet flexible enough to adapt to a wide array of network scenarios.
+    The Rayo client can now control the call by using one of the following commands.
 </p>
 
 <p>
-    So why another protocol? While call and media control protocols are nothing new, 
-    existing system are either way too low level and difficult to use (e.g. SIP, MRCP, MGCP, etc.) 
-    or far too restrictive for highly interactive applications (e.g. VoiceXML, TwiML). 
-    Rayo bridges the gap by providing a unified call+media control protocol that’s both simple to 
-    use yet flexible enough to adapt to a wide array of network scenarios.
+<pre>
+<code>&lt;!-- Message comes from the Call's JID --&gt;
+&lt;presence to='16577@app.rayo.net/1' from='9f00061@call.rayo.net/1'&gt;
+  &lt;offer xmlns='urn:xmpp:rayo:1'
+    to='tel:+18003211212'
+    from='tel:+13058881212'&gt;
+    &lt;!-- Signaling (e.g. SIP) Headers --&gt;
+    &lt;header name='Via' value='192.168.0.1' /&gt;
+    &lt;header name='Contact' value='192.168.0.1' /&gt;
+  &lt;/offer&gt;
+&lt;/presence&gt;</code>
+</pre>
 </p>
 
 <p>
-    So why another protocol? While call and media control protocols are nothing new, 
-    existing system are either way too low level and difficult to use (e.g. SIP, MRCP, MGCP, etc.) 
-    or far too restrictive for highly interactive applications (e.g. VoiceXML, TwiML). 
-    Rayo bridges the gap by providing a unified call+media control protocol that’s both simple to 
-    use yet flexible enough to adapt to a wide array of network scenarios.
+    A call can also be rejected. Rejections can include an optional rejection reason. Rejection reasons are one of <code>&lt;busy/&gt;</code>, <code>&lt;decline/&gt;</code> or <code>&lt;error/&gt;</code>. If not specified, <code>&lt;decline/&gt;</code> is used as the default reason.
 </p>
 
 <p>
-    So why another protocol? While call and media control protocols are nothing new, 
-    existing system are either way too low level and difficult to use (e.g. SIP, MRCP, MGCP, etc.) 
-    or far too restrictive for highly interactive applications (e.g. VoiceXML, TwiML). 
-    Rayo bridges the gap by providing a unified call+media control protocol that’s both simple to 
-    use yet flexible enough to adapt to a wide array of network scenarios.
-</p>
-
-<p>
-    So why another protocol? While call and media control protocols are nothing new, 
-    existing system are either way too low level and difficult to use (e.g. SIP, MRCP, MGCP, etc.) 
-    or far too restrictive for highly interactive applications (e.g. VoiceXML, TwiML). 
-    Rayo bridges the gap by providing a unified call+media control protocol that’s both simple to 
-    use yet flexible enough to adapt to a wide array of network scenarios.
-</p>
-
-<p>
-    So why another protocol? While call and media control protocols are nothing new, 
-    existing system are either way too low level and difficult to use (e.g. SIP, MRCP, MGCP, etc.) 
-    or far too restrictive for highly interactive applications (e.g. VoiceXML, TwiML). 
-    Rayo bridges the gap by providing a unified call+media control protocol that’s both simple to 
-    use yet flexible enough to adapt to a wide array of network scenarios.
-</p>
-
-<p>
-    So why another protocol? While call and media control protocols are nothing new, 
-    existing system are either way too low level and difficult to use (e.g. SIP, MRCP, MGCP, etc.) 
-    or far too restrictive for highly interactive applications (e.g. VoiceXML, TwiML). 
-    Rayo bridges the gap by providing a unified call+media control protocol that’s both simple to 
-    use yet flexible enough to adapt to a wide array of network scenarios.
-</p>
-
-<p>
-    So why another protocol? While call and media control protocols are nothing new, 
-    existing system are either way too low level and difficult to use (e.g. SIP, MRCP, MGCP, etc.) 
-    or far too restrictive for highly interactive applications (e.g. VoiceXML, TwiML). 
-    Rayo bridges the gap by providing a unified call+media control protocol that’s both simple to 
-    use yet flexible enough to adapt to a wide array of network scenarios.
-</p>
-
-<p>
-    So why another protocol? While call and media control protocols are nothing new, 
-    existing system are either way too low level and difficult to use (e.g. SIP, MRCP, MGCP, etc.) 
-    or far too restrictive for highly interactive applications (e.g. VoiceXML, TwiML). 
-    Rayo bridges the gap by providing a unified call+media control protocol that’s both simple to 
-    use yet flexible enough to adapt to a wide array of network scenarios.
-</p>
-
-<p>
-    So why another protocol? While call and media control protocols are nothing new, 
-    existing system are either way too low level and difficult to use (e.g. SIP, MRCP, MGCP, etc.) 
-    or far too restrictive for highly interactive applications (e.g. VoiceXML, TwiML). 
-    Rayo bridges the gap by providing a unified call+media control protocol that’s both simple to 
-    use yet flexible enough to adapt to a wide array of network scenarios.
+<pre>
+<code>&lt;!-- Message comes from the Call's JID --&gt;
+&lt;presence to='16577@app.rayo.net/1' from='9f00061@call.rayo.net/1'&gt;
+  &lt;offer xmlns='urn:xmpp:rayo:1'
+    to='tel:+18003211212'
+    from='tel:+13058881212'&gt;
+    &lt;!-- Signaling (e.g. SIP) Headers --&gt;
+    &lt;header name='Via' value='192.168.0.1' /&gt;
+    &lt;header name='Contact' value='192.168.0.1' /&gt;
+  &lt;/offer&gt;
+&lt;/presence&gt;</code>
+</pre>
 </p>
