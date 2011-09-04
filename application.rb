@@ -11,11 +11,14 @@ end
 
 # root page
 get '/' do
-	@title = "Rayo Messaging Protocol"
-	@page = "about"
-	erb :about
+  erb :coming_soon,{:layout => :special}
 end
 
+get '/about' do 
+  @title = "Rayo Messaging Protocol"
+  @page = "about"
+  erb :about 
+end
 # spec page
 get '/spec' do
 	@title = "Rayo Messaging Protocol Specification"
