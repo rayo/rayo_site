@@ -1,6 +1,7 @@
-$LOAD_PATH << '.'
+require 'bundler'
+Bundler.require
 
-require 'application.rb'
+require File.join(File.dirname(__FILE__), 'application')
 
 set :run, true
 set :environment, :production
