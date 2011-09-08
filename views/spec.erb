@@ -1,78 +1,309 @@
 <div id="title">
-	Rayo Specification
+	Rayo Specification (rev 0.3)
 </div>
 
-<p>
-    The Rayo protocol primarily deals with calls. Inbound calls originate from the PSTN or via SIP and are offered to 
-    Rayo clients via XMPP using a Jabber Identifier (JID). Each call is in turn represented by it's own unique JID allowing 
-    a two way conversation between the Rayo client and the server that's handling the call signaling and media.
+<h1>Introduction</h1>
+
+<p>Rayo is a message-oriented XML protocol for controlling phone calls, audio mixers and a variety of advanced media resources such as speech recognizers, speech synthesizers and audio recorders. These capabilities can be combined to create a wide variety of applications such as menu-based phone systems, in-game conferencing and anonymous dating services.</p>
+
+<p>So why another protocol? While call and media control protocols are nothing new, existing options are either way too low level and difficult to use (e.g. SIP, MRCP, MGCP, etc.) or far too restrictive for highly interactive applications (e.g. VoiceXML, TwiML). Rayo bridges the gap by providing a unified call+media control protocol that's both simple to use yet flexible enough to adapt to a wide array of network scenarios.</p>
+
+<p><img src="images/spec/bridgingthegap.png" alt="Bridging the Gap">
 </p>
 
-<h1>
-    JID Format
-</h1>
+<h2>Key Features</h2>
 
-<p>
-    The JID follows a specific format. In XMPP the JID is constructed as <code>&lt;node&gt;@&lt;domain&gt;/&lt;resource&gt;</code>.
+<ul>
+<li><strong>Call Control:</strong> Incoming calls are &quot;offered&quot; to clients at which point they can be answered, rejected, redirected to another destination, etc. Evey attempt is made to be shield the  Rayo client from the low level telephony protocol (e.g. SIP, Jingle, PSTN, etc.)</li>
+<li><strong>Audio File Playback:</strong> A compatible Rayo server will fetch a file from a a specified URL and play the containing audio to the caller.</li>
+<li><strong>Speech Synthesis / TTS:</strong> In cases where dynamic data must be spoken, a Speech Synthesis engine many be used to play computer generated speech to the caller.</li>
+<li><strong>DTMF / Touch-tone Events:</strong> Rayo surfaces real-time event when the caller presses keys on their touch-tone keypad.</li>
+<li><strong>Speech Recognition:</strong> Enables the phone application to take spoken queues allowing for sophisticated voice-driven menus and directory services.</li>
+<li><strong>Call Recording:</strong> Can be used to capture the caller's voice (e.g. Voicemail) or both sides of the call for auditing and compliance purposes.</li>
+<li><strong>Mixing:</strong> Typically referred to as an audio &quot;conference&quot; calls can be joined together so that the participants can hear each other in real-time.</li>
+</ul>
+
+<h1>Clients and Servers</h1>
+
+<p>Rayo is a client/server protocol. The server interfaces with low level telephony components while the client controls calls by sending XML messages to the server. The communication between client and server is bidirectional with the client sending commands to the server and the server sending events to the client.</p>
+
+<p><img src="images/spec/server2client.png" alt="Server to Client">
 </p>
 
-<p>
-    For Rayo, the <code>&lt;node&gt;</code> portion of the JID always represents the call ID. The <code>&lt;resource&gt;</code>, when present, represents the affected command ID.
+<p>Server informing client of a new incoming call (Offer Event)</p>
+
+<p><img src="images/spec/client2server.png" alt="Server to Client">
 </p>
 
-<h1>
-	Incoming Calls
-</h1>
+<p>Client telling server to answer the call (Answer Command)</p>
 
-<p>
-<pre>
-<code>&lt;!-- Message comes from the Call's JID --&gt;
-&lt;presence to='16577@app.rayo.net/1' from='9f00061@call.rayo.net/1'&gt;
-  &lt;offer xmlns='urn:xmpp:rayo:1'
-    to='tel:+18003211212'
-    from='tel:+13058881212'&gt;
-    &lt;!-- Signaling (e.g. SIP) Headers --&gt;
-    &lt;header name='Via' value='192.168.0.1' /&gt;
-    &lt;header name='Contact' value='192.168.0.1' /&gt;
-  &lt;/offer&gt;
-&lt;/presence&gt;</code>
-</pre>
+<p>For a complete list of Rayo message types check out the chapter titled &quot;[[Rayo Specification]]&quot;.</p>
+
+<p>As previously mentioned, Rayo is a message-oriented XML protocol. In other words, commands and events are communicated between the client and server using XML documents. This basic design allows Rayo messages to be delivered using virtually any wire protocol. That said, few transports offer such an advanced level of message routing, security and domain federation as the Extensible Messaging and Presence Protocol (XMPP). </p>
+
+<p>The following chapter introduces basic XMPP concepts and describes best practices for tunnelling Rayo over XMPP.</p>
+
+<h1>Rayo over XMPP</h1>
+
+<p>XMPP provides a secure channel for routing small XML messages between networks in close to real-time.  The key points here are <strong>routing</strong> and <strong>federation</strong>. </p>
+
+<p><img src="images/spec/xmppfederation.png" alt="Rayo over XMPP">
 </p>
 
-<p>
-    The Rayo client can now control the call by using one of the following commands.
+<p>This diagram shows a call (‘7bace1') being controlled by an XMPP client logged in as app1@acme.com. Don't worry about the details here, the concept is that app1@acme.com does not need to explicitly trust the rayo.net domain. Nor does it need to establish a direct connection to rayo.net. Instead, the client domain (i.e. acme.com) creates a trust boundary on behalf of the client. Messages flow quickly and efficiently between these trust boundaries via persistent TCP sockets.</p>
+
+<p>For a great introduction to XMPP, I highly recommend Chapter 2 of &quot;XMPP: The Definitive Guide&quot; (http://oreilly.com/catalog/9780596521264). The author, Peter Saint-Andre, is the executive director of the XMPP Software Foundation and very passionate about XMPP and related technologies; and a fantastic writer to boot.</p>
+
+<h1>Presence and Load Balancing</h1>
+
+<p>Presence is the ability for one XMPP user to know the availability of another in real-time. Presence comes in handy for person to person communication. Think of a typical instant messaging network like Yahoo! or Skype. We rely on presence to know if our contacts are available; and if not, some indication of when they'll return (&quot;Offline&quot;, &quot;Busy&quot;, &quot;BRB&quot;, &quot;Away&quot;, etc.). Without presence, IM would be very chaotic.</p>
+
+<p>What if we could apply presence to inter-system communication? Using presence for non-human communication is not only possible but encouraged by the XMPP community. Even though XMPP was initially designed for person to person communication, there are a growing number of protocols that leverage presence for smart message routing.</p>
+
+<p>Rayo uses presence information to automatically distribute calls between clients as they become online. As new clients come online, their presence information flows to the Rayo domain and they are automatically put into routing. </p>
+
+<p>To demonstrate further, let's use a fictitious cloud telephony service named Rayo.net. Presumably, Rayo.net has a web portal where developers can signup, buy phone numbers and map those phone numbers to an application.</p>
+
+<p>First, the developer creates a new application by providing a name and are code.</p>
+
+<p><img src="images/spec/wizard1.png" alt="Provisioning Step 1">
 </p>
 
-<p>
-<pre>
-<code>&lt;!-- Message comes from the Call's JID --&gt;
-&lt;presence to='16577@app.rayo.net/1' from='9f00061@call.rayo.net/1'&gt;
-  &lt;offer xmlns='urn:xmpp:rayo:1'
-    to='tel:+18003211212'
-    from='tel:+13058881212'&gt;
-    &lt;!-- Signaling (e.g. SIP) Headers --&gt;
-    &lt;header name='Via' value='192.168.0.1' /&gt;
-    &lt;header name='Contact' value='192.168.0.1' /&gt;
-  &lt;/offer&gt;
-&lt;/presence&gt;</code>
-</pre>
+<p>Next, the developer binds an XMPP address with the application.</p>
+
+<p><img src="images/spec/wizard2.png" alt="Provisioning Step 1">
 </p>
 
-<p>
-    A call can also be rejected. Rejections can include an optional rejection reason. Rejection reasons are one of <code>&lt;busy/&gt;</code>, <code>&lt;decline/&gt;</code> or <code>&lt;error/&gt;</code>. If not specified, <code>&lt;decline/&gt;</code> is used as the default reason.
-</p>
+<p>When selecting &quot;Finish&quot;, the Rayo.net domain will initiate a presence subscription (http://xmpp.org/rfcs/rfc3921.html#sub) with the specified JID; in this case partycalls@acme.com.</p>
 
-<p>
-<pre>
-<code>&lt;!-- Message comes from the Call's JID --&gt;
-&lt;presence to='16577@app.rayo.net/1' from='9f00061@call.rayo.net/1'&gt;
-  &lt;offer xmlns='urn:xmpp:rayo:1'
-    to='tel:+18003211212'
-    from='tel:+13058881212'&gt;
-    &lt;!-- Signaling (e.g. SIP) Headers --&gt;
-    &lt;header name='Via' value='192.168.0.1' /&gt;
-    &lt;header name='Contact' value='192.168.0.1' /&gt;
-  &lt;/offer&gt;
-&lt;/presence&gt;</code>
-</pre>
-</p>
+<p><pre><code>&lt;presence from=&quot;rayo.net&quot; to=&quot;partycalls@acme.com&quot; type=&quot;subscribe&quot; /&gt;</code></pre></p>
+
+<p>If partycalls@acme.com is online it will receive the subscription request and complete the subscription by replying with &quot;subscribed&quot;.</p>
+
+<p><pre><code>&lt;presence from=&quot;partycalls@acme.com/1&quot; to=&quot;rayo.net&quot; type=&quot;subscribed&quot; /&gt;</code></pre></p>
+
+<p>At this point the presence subscription is complete and the Rayo.net domain will be notified whenever a client for the &quot;Party Line&quot; application comes online and will distribute incoming call offers evenly across all available resources.</p>
+
+<h1>Calls</h1>
+
+<p>The Rayo protocol primarily deals with calls. Inbound calls originate from the PSTN or via SIP and are offered to Rayo clients via XMPP using a Jabber Identifier (JID). Each call is in turn represented by it's own unique JID allowing a two way conversation between the Rayo client and the server that's handling the call signaling and media.</p>
+
+<h2>JID Format</h2>
+
+<p>The JID follows a specific format.  In XMPP the JID is constructed as
+  <pre><code>&lt;node&gt;@&lt;domain&gt;/&lt;resource&gt;</code></pre></p>
+
+<p>For Rayo, the <code>&lt;node&gt;</code> portion of the JID always represents the call ID.  The <code>&lt;resource&gt;</code>, when present, represents the affected command ID.</p>
+
+<h2>Incoming Calls</h2>
+
+<p><pre><code>&lt;!-- Message comes from the Call's JID --&gt;
+  &lt;presence to='16577@app.rayo.net/1' from='9f00061@call.rayo.net/1'&gt;
+    &lt;offer xmlns='urn:xmpp:rayo:1'
+        to='tel:+18003211212'
+        from='tel:+13058881212'&gt;
+      &lt;!-- Signaling (e.g. SIP) Headers --&gt;
+      &lt;header name='Via' value='192.168.0.1' /&gt;
+      &lt;header name='Contact' value='192.168.0.1' /&gt;
+    &lt;/offer&gt;
+  &lt;/presence&gt;</code></pre></p>
+
+<p>The Rayo client can now control the call by using one of the following commands.</p>
+
+<p><pre><code>&lt;!-- Accept (e.g. SIP 180/Ringing). Only applies to incoming calls. --&gt;
+  &lt;iq type='set' to='9f00061@call.rayo.net/1' from='16577@app.rayo.net/1'&gt;
+    &lt;accept xmlns='urn:xmpp:rayo:1'&gt;
+      &lt;!-- Sample Headers (optional) --&gt;
+      &lt;header name=&quot;x-skill&quot; value=&quot;agent&quot; /&gt;
+      &lt;header name=&quot;x-customer-id&quot; value=&quot;8877&quot; /&gt;
+    &lt;/accept&gt;
+  &lt;/iq&gt;</code></pre></p>
+
+<p><pre><code>&lt;!-- Answer (e.g. SIP 200/OK). Only applies to incoming calls. --&gt;
+  &lt;iq type='set' to='9f00061@call.rayo.net/1' from='16577@app.rayo.net/1'&gt;
+    &lt;answer xmlns='urn:xmpp:rayo:1'&gt;    
+      &lt;!-- Sample Headers (optional) --&gt;
+      &lt;header name=&quot;x-skill&quot; value=&quot;agent&quot; /&gt;
+      &lt;header name=&quot;x-customer-id&quot; value=&quot;8877&quot; /&gt;
+    &lt;/answer&gt;
+  &lt;/iq&gt;</code></pre></p>
+
+<p><pre><code>&lt;!-- Redirect (e.g. SIP 302/Redirect). Only applies to incoming calls. --&gt;
+  &lt;iq type='set' to='9f00061@call.rayo.net/1' from='16577@app.rayo.net/1'&gt;
+    &lt;redirect to='tel:+14152226789' xmlns='urn:xmpp:rayo:1'&gt;    
+      &lt;!-- Sample Headers (optional) --&gt;
+      &lt;header name=&quot;x-skill&quot; value=&quot;agent&quot; /&gt;
+      &lt;header name=&quot;x-customer-id&quot; value=&quot;8877&quot; /&gt;
+    &lt;/redirect&gt;
+  &lt;/iq&gt;</code></pre></p>
+
+<p>A call can also be rejected. Rejections can include an optional rejection reason. Rejection reasons are one of
+<code>&lt;busy/&gt;</code>, <code>&lt;decline/&gt;</code> or <code>&lt;error/&gt;</code>. If not specified, <code>&lt;decline/&gt;</code> is used as the default reason.</p>
+
+<p><pre><code>&lt;!-- Decline  (.g. SIP 603/Decline). Only applies to incoming calls. --&gt;
+  &lt;iq type='set' to='9f00061@call.rayo.net/1' from='16577@app.rayo.net/1'&gt;
+    &lt;reject xmlns='urn:xmpp:rayo:1'&gt;
+      &lt;decline /&gt;
+      &lt;!-- Sample Headers (optional) --&gt;
+      &lt;header name=&quot;x-reason-internal&quot; value=&quot;bad-skill&quot; /&gt;
+    &lt;/reject&gt;
+  &lt;/iq&gt;</code></pre></p>
+
+<p><pre><code>&lt;!-- Busy  (.g. SIP 486/Busy). Only applies to incoming calls. --&gt;
+  &lt;iq type='set' to='9f00061@call.rayo.net/1' from='16577@app.rayo.net/1'&gt;
+    &lt;reject xmlns='urn:xmpp:rayo:1'&gt;
+      &lt;busy /&gt;
+      &lt;!-- Sample Headers (optional) --&gt;
+      &lt;header name=&quot;x-busy-detail&quot; value=&quot;out of licenses&quot; /&gt;
+    &lt;/reject&gt;
+  &lt;/iq&gt;</code></pre></p>
+
+<p><pre><code>&lt;!-- Error  (.g. SIP 500/Internal Server Error). Only applies to incoming calls. --&gt;
+  &lt;iq type='set' to='9f00061@call.rayo.net/1' from='16577@app.rayo.net/1'&gt;
+    &lt;reject xmlns='urn:xmpp:rayo:1'&gt;
+      &lt;error /&gt;
+      &lt;!-- Sample Headers (optional) --&gt;
+      &lt;header name=&quot;x-error-detail&quot; value=&quot;soem descriptive error message&quot; /&gt;
+    &lt;/reject&gt;
+  &lt;/iq&gt;</code></pre></p>
+
+<h2>Outbound Calls</h2>
+
+<p>Rayo clients can initiate outbound calls using the <code>&lt;dial /&gt;</code> command.</p>
+
+<p><pre><code>&lt;!-- Handled by the domain controller which picks a random Rayo Server --&gt;
+  &lt;iq type='set' to='call.rayo.net' from='16577@app.rayo.net/1'&gt;
+     &lt;dial to='tel:+13055195825' from='tel:+14152226789' xmlns='urn:xmpp:rayo:1'&gt;
+        &lt;header name=&quot;x-skill&quot; value=&quot;agent&quot; /&gt;
+        &lt;header name=&quot;x-customer-id&quot; value=&quot;8877&quot; /&gt;
+     &lt;/dial&gt;
+  &lt;/iq&gt;</code></pre></p>
+
+<p><pre><code>&lt;iq type='result' to='16577@app.rayo.net/1' from='call.rayo.net'&gt;
+     &lt;!-- The Call's ID --&gt;
+     &lt;ref id='9f00061' /&gt;
+  &lt;/iq&gt;</code></pre></p>
+
+<p>The client will then begin to receive progress events as the call makes it's way through the network.</p>
+
+<p><pre><code>&lt;!-- Far end has accepted the call and is ringing (e.g. 180/Ringing) --&gt;
+  &lt;presence to='16577@app.rayo.net/1' from='9f00061@call.rayo.net/1'&gt;
+    &lt;ringing xmlns='urn:xmpp:rayo:1' /&gt;
+  &lt;/presence&gt;</code></pre></p>
+
+<p><pre><code>&lt;!-- The outgoing call has been answered (e.g. 200/OK) --&gt;
+  &lt;presence to='16577@app.rayo.net/1' from='9f00061@call.rayo.net/1'&gt;
+    &lt;answered xmlns='urn:xmpp:rayo:1' /&gt;
+  &lt;/presence&gt;</code></pre></p>
+
+<p>If for some reason the call is not accepted by the far end, the Rayo client will receive an <code>&lt;end/&gt;</code> event indicating the reason for the failure. </p>
+
+<p><pre><code>&lt;!-- Dial destination did not answer within the timeout period --&gt;
+  &lt;presence to='16577@app.rayo.net/1' from='9f00061@call.rayo.net/1'&gt;
+    &lt;end xmlns='urn:xmpp:rayo:1'&gt;    
+      &lt;timeout /&gt;
+    &lt;/end&gt;
+  &lt;/presence&gt;</code></pre></p>
+
+<p><pre><code>&lt;!-- Dial destination is busy and annot answer the call --&gt;
+  &lt;presence to='16577@app.rayo.net/1' from='9f00061@call.rayo.net/1'&gt;
+    &lt;end xmlns='urn:xmpp:rayo:1'&gt;    
+      &lt;busy /&gt;
+    &lt;/end&gt;
+  &lt;/presence&gt;</code></pre></p>
+
+<p><pre><code>&lt;!-- Dial destination rejected the call --&gt;
+  &lt;presence to='16577@app.rayo.net/1' from='9f00061@call.rayo.net/1'&gt;
+    &lt;end xmlns='urn:xmpp:rayo:1'&gt;    
+      &lt;reject /&gt;
+    &lt;/end&gt;
+  &lt;/presence&gt;</code></pre></p>
+
+<p><pre><code>&lt;!-- Rayo encountered a system error while dialing --&gt;
+  &lt;presence to='16577@app.rayo.net/1' from='9f00061@call.rayo.net/1'&gt;
+    &lt;end xmlns='urn:xmpp:rayo:1'&gt;    
+      &lt;error&gt;Lucy, you got some 'splainin to do&lt;/error&gt;
+    &lt;/end&gt;
+  &lt;/presence&gt;</code></pre></p>
+
+<p>Note: A Rayo <code>&lt;end/&gt;</code> indicates that the call has been disconnected and that no more events are possible for this call. Therefore, the <code>&lt;end/&gt;</code> event is a perfect point for clients to clean up resources related to the controlling of the call.</p>
+
+<h2>Handling caller hangup</h2>
+
+<p>If the caller hangs up the call Rayo will produce an <code>&lt;end/&gt;</code>event with a <code>&lt;hangup/&gt;</code> reason like so:</p>
+
+<p><pre><code>&lt;presence to='16577@app.rayo.net/1' from='9f00061@call.rayo.net/1'&gt;
+  &lt;end xmlns='urn:xmpp:rayo:1'&gt;    
+    &lt;hangup/&gt;
+  &lt;/end&gt;
+&lt;/presence&gt;</code></pre></p>
+
+<p>Note: A Rayo <code>&lt;end/&gt;</code> indicates that the call has been disconnected and that no more events are possible for this call. Therefore, the <code>&lt;end/&gt;</code> event is a perfect point for clients to clean up resources related to the controlling of the call.</p>
+
+<h2>Forcing a call to end</h2>
+
+<p>Rayo client can force a call to end by sending a <pre><code>&lt;hangup/&gt;</code></pre> command to the call's JID.</p>
+
+<p><pre><code>&lt;iq type='set' to='9f00061@call.rayo.net/1' from='16577@app.rayo.net/1'&gt;
+  &lt;hangup xmlns='urn:xmpp:rayo:1'&gt;    
+    &lt;!-- Sample Headers (optional) --&gt;
+    &lt;header name=&quot;x-reason-internal&quot; value=&quot;bad-skill&quot; /&gt;
+  &lt;/hangup&gt;
+&lt;/iq&gt;</code></pre></p>
+
+<p>NOTE: The client will still receive an <code>&lt;end/&gt;</code> event indicating that that call has been disconnected and that no further events or commands are possible.</p>
+
+<h1>Components</h1>
+
+<p>Components extend the Rayo protocol by providing additional media and call control functionality.</p>
+
+<p>Components are started by sending a specialized command to the Rayo server. This example shows the use of the <code>&lt;output xmlns='urn:xmpp:rayo:output:1'/&gt;</code> component. Don't worry about the specifics of the <code>&lt;output/&gt;</code> element for now. We'll discuss each component in detail in the folowing chapters. The key point here is that a component request is being sent to the call's JID.</p>
+
+<p>NOTE: You can easily spot a component request because the namespace will be in the format urn:xmpp:rayo:COMPONENT_NAME:1</p>
+
+<p><pre><code>&lt;iq type='set' to='9f00061@call.rayo.net/1' from='16577@app.rayo.net/1'&gt;
+    &lt;output xmlns='urn:xmpp:rayo:output:1' 
+      voice='allison'&gt;
+      &lt;audio url='http://acme.com/greeting.mp3'&gt;
+          Thanks for calling ACME company
+      &lt;/audio&gt;
+      &lt;audio url='http://acme.com/package-shipped.mp3'&gt;
+          Your package was shipped on
+      &lt;/audio&gt;
+      &lt;say-as interpret-as='date'&gt;12/01/2011&lt;/say-as&gt;
+    &lt;/say&gt;
+  &lt;/iq&gt;</code></pre></p>
+
+<p>The Rayo server will validate the component request and attach a new instance of the component to the call. In a happy day scenario the client will immediately receive an IQ result containing the newly created component's ID. The component's ID is combined with the call's JID to control the component (e.g. pause, resume, stop, etc.) and to corelate events coming from the component as well.</p>
+
+<p>A component's JID is calculated by combining the call's JID with the newly created component's ID like so: <code>&lt;call-id&gt;@&lt;rayo-domain&gt;/&lt;component-id&gt;</code></p>
+
+<p><pre><code>&lt;!-- Server responds a unique ID --&gt;
+  &lt;iq type='result' to='16577@app.rayo.net/1' to='9f00061@call.rayo.net/1'&gt;
+     &lt;ref id='fgh4590' xmlns='urn:xmpp:rayo:1' /&gt;
+  &lt;/iq&gt;</code></pre></p>
+
+<p>NOTE: Remember that Rayo executes components asynchronously and in many cases more than one component can run at the same time. For example, the <code>&lt;record xmlns='urn:xmpp:rayo:record:1' /&gt;</code> component can run in the background while other componenets are used to interact with the caller resulting both sides of the conversation being recorded.</p>
+
+<h2>Component Commands</h2>
+
+<p>Components are controlled by sending command messages to their unique JID. The only command required by all components is the <pre><code>&lt;stop/&gt;</code></pre> command.</p>
+
+<p><pre><code>&lt;iq type='set' to='9f00061@call.rayo.net/fgh4590' from='16577@app.rayo.net/1'&gt;
+    &lt;stop xmlns='urn:xmpp:rayo:1' /&gt;
+  &lt;/iq&gt;</code></pre></p>
+
+<p>As you'll see in the following chapters, component developers can get very creative with the command they support allowing for some really interesting capabilities. For example, the ability to pause and resum audio playback as well as muting and unmuting the caller's microphone while in a conference. </p>
+
+<h2>Component Events</h2>
+
+<p>Events are specialized lifecycle messages that flow from a component instance to the Rayo client that's controlling the call. As you'll see in the following chapters, component events are very powerful and can provide great insight into a running application. </p>
+
+<p>The only event required by all components is the <pre><code>&lt;complete xmlns='urn:xmpp:rayo:ext:complete:1' /&gt;</code></pre>. This is an example complete event produced by the <pre><code>&lt;say urn:xmpp:tropo:say:1/&gt;</code></pre> component when audio playback has completed succesfully.</p>
+
+<p><pre><code>&lt;presence to='9f00061@call.rayo.net/fgh4590' from='16577@app.rayo.net/1'&gt;
+   &lt;complete xmlns='urn:xmpp:rayo:ext:1'&gt;
+     &lt;success xmlns='urn:xmpp:tropo:say:complete:1' /&gt;
+   &lt;/complete&gt;
+  &lt;/presence&gt;</code></pre></p>
+
