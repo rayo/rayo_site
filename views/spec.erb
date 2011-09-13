@@ -8,16 +8,13 @@
 
 <p>So why another protocol? While call and media control protocols are nothing new, existing options are either way too low level and difficult to use (e.g. SIP, MRCP, MGCP, etc.) or far too restrictive for highly interactive applications (e.g. VoiceXML, TwiML). Rayo bridges the gap by providing a unified call+media control protocol that's both simple to use yet flexible enough to adapt to a wide array of network scenarios.</p>
 
-<p><img src="images/spec/bridgingthegap.png" alt="Bridging the Gap">
-</p>
-
 <h2>Key Features</h2>
 
 <ul>
 <li><strong>Call Control:</strong> Incoming calls are &quot;offered&quot; to clients at which point they can be answered, rejected, redirected to another destination, etc. Evey attempt is made to be shield the  Rayo client from the low level telephony protocol (e.g. SIP, Jingle, PSTN, etc.)</li>
 <li><strong>Audio File Playback:</strong> A compatible Rayo server will fetch a file from a a specified URL and play the containing audio to the caller.</li>
 <li><strong>Speech Synthesis / TTS:</strong> In cases where dynamic data must be spoken, a Speech Synthesis engine many be used to play computer generated speech to the caller.</li>
-<li><strong>DTMF / Touch-tone Events:</strong> Rayo surfaces real-time event when the caller presses keys on their touch-tone keypad.</li>
+<li><strong>Touch-tone Events / DTMF:</strong> Rayo surfaces real-time event when the caller presses keys on their touch-tone keypad.</li>
 <li><strong>Speech Recognition:</strong> Enables the phone application to take spoken queues allowing for sophisticated voice-driven menus and directory services.</li>
 <li><strong>Call Recording:</strong> Can be used to capture the caller's voice (e.g. Voicemail) or both sides of the call for auditing and compliance purposes.</li>
 <li><strong>Mixing:</strong> Typically referred to as an audio &quot;conference&quot; calls can be joined together so that the participants can hear each other in real-time.</li>
