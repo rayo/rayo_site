@@ -32,3 +32,7 @@ get '/who' do
 	@page = "who"
 	erb :who
 end
+
+get '/xep' do
+  redirect 'http://ci.mojolingo.com/job/Rayo%20Spec/lastSuccessfulBuild/artifact/extensions/rayo.html'
+end
