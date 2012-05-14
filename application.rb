@@ -1,7 +1,9 @@
 %w(rubygems awesome_print sinatra).each { |lib| require lib }
 
 get '/' do
-  redirect :about
+  @title = "Rayo 3PCC Protocol"
+  @page = "about"
+  erb :about
 end
 
 get '/about' do
