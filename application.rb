@@ -5,19 +5,25 @@ get '/' do
 end
 
 get '/about' do
-  @title = "Rayo Messaging Protocol"
+  @title = "Rayo 3PCC Protocol"
   @page = "about"
   erb :about
 end
 
 get '/spec' do
-  @title = "Rayo Messaging Protocol Specification"
+  @title = "Rayo 3PCC Protocol Specification"
   @page = "spec"
   erb :spec
 end
 
+get '/participate' do
+  @title = "Rayo 3PCC Protocol - Participate"
+  @page = "participate"
+  erb :participate
+end
+
 get '/who' do
-  @title = "Rayo Messaging Protocol - Who's using it"
+  @title = "Rayo 3PCC Protocol - Who's using it"
   @page = "who"
   erb :who
 end
