@@ -1,17 +1,13 @@
 %w(rubygems awesome_print sinatra).each { |lib| require lib }
 
-configure do
-  set :views, "#{File.dirname(__FILE__)}/views"
-end
-
 get '/' do
   erb :coming_soon, :layout => :special
 end
 
-get '/about' do 
+get '/about' do
   @title = "Rayo Messaging Protocol"
   @page = "about"
-  erb :about 
+  erb :about
 end
 
 get '/spec' do
