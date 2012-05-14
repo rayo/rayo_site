@@ -1,7 +1,7 @@
 %w(rubygems awesome_print sinatra).each { |lib| require lib }
 
 get '/' do
-  erb :coming_soon, :layout => :special
+  redirect :about
 end
 
 get '/about' do
