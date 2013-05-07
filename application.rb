@@ -31,5 +31,5 @@ get '/who' do
 end
 
 get '/xep' do
-  redirect 'http://ci.mojolingo.com/job/Rayo%20Spec/lastSuccessfulBuild/artifact/extensions/rayo.html'
+  redirect 'http://xmpp.org/extensions/xep-0327.html'
 end
