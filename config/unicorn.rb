@@ -12,7 +12,8 @@ preload_app true
 worker_processes 4
 
 # Listen on both fast-failing unix data socket & a backloggable TCP connection
-listen "#{app_path}/shared/tmp/sockets/unicorn.sock", :backlog => 64
+#listen "#{app_path}/shared/tmp/sockets/unicorn.sock", :backlog => 64
+listen "127.0.0.1:3002", :backlog => 64
 
 # Hard-set the CWD & pidfile to ensure app-reloading consistency
 working_directory "#{app_path}/current"
