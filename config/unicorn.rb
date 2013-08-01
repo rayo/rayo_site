@@ -4,7 +4,7 @@
 
 application = "www.rayo.org"
 environment = ENV['RACK_ENV'] || ENV['RAILS_ENV'] || 'production'
-app_path = "/srv/www/#{application}"
+app_path = "/var/www/#{application}"
 bundle_path = "#{app_path}/shared/bundle"
 
 timeout 30
@@ -40,7 +40,7 @@ before_exec do |_|
 
   ENV["PATH"] = paths.uniq.join(File::PATH_SEPARATOR)
   ENV["GEM_HOME"] = ENV['GEM_PATH'] = bundle_path
-  ENV["BUNDLE_GEMFILE"] = "/srv/#{application}/current/Gemfile"
+  ENV["BUNDLE_GEMFILE"] = "/var/#{application}/current/Gemfile"
 end
 
 
